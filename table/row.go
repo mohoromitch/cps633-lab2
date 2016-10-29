@@ -1,5 +1,7 @@
 package table
 
+import "fmt"
+
 type row struct {
 	firstKeyCode int
 	secondKeyCode int
@@ -26,4 +28,8 @@ func (r *row) FirstDwellTime() int {
 
 func (r *row) SecondDwellTime() int {
 	return r.secondDwellTime
+}
+
+func (r *row) String() string {
+	return fmt.Sprintf("row[first key code: %d, second key code: %d, fly time: %d, first dwell time: %d, second dwell time: %d]", r.firstKeyCode, r.secondKeyCode, r.flyTime, r.firstDwellTime, r.secondDwellTime)
 }
