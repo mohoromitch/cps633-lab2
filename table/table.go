@@ -2,32 +2,32 @@ package table
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
-	"errors"
 )
 
 //The default tableLength for this lab is 3000 entries
-const tableLength = 3000;
+const tableLength = 3000
 
 type table struct {
 	Data []row
 }
 
 func checkErr(e error) {
-	if(e != nil) {
+	if e != nil {
 		panic(e)
 	}
 }
 
 func NewTableFromFile(filename string) *table {
-	f, err := os.Open(filename);
+	f, err := os.Open(filename)
 	checkErr(err)
 	dataTable := extractDataFromFile(f)
 	return &table{*dataTable}
 }
 
-func extractDataFromFile (f *os.File) *[]row {
+func extractDataFromFile(f *os.File) *[]row {
 	defer f.Close()
 	data := make([]row, tableLength)
 	var firstKeyCode, secondKeyCode, flyTime, firstDwellTime, secondDwellTime int
@@ -45,7 +45,7 @@ func extractDataFromFile (f *os.File) *[]row {
 }
 
 func (t *table) RetrieveDataPortion(x int) (*[]row, error) {
-	if(x >= 6 || x < 0) {
+	if x >= 6 || x < 0 {
 		return nil, errors.New("The given value was out of range: [0,5]")
 	}
 	sliceSize := tableLength / 6
