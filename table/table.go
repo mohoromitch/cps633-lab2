@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"errors"
 )
 
 //The default tableLength for this lab is 3000 entries
@@ -41,4 +42,16 @@ func extractDataFromFile (f *os.File) *[]row {
 		line++
 	}
 	return &data
+}
+
+func (t *table) RetrieveDataPortion(x int) (*[]row, error) {
+	if(x >= 6 || x < 0) {
+		return nil, errors.New("The given value was out of range: [0,5]")
+	}
+	sliceSize := tableLength / 6
+	startIndex := sliceSize * x
+	endIndex := startIndex + sliceSize
+	returnSlice := t.Data[startIndex:endIndex]
+	fmt.Println(returnSlice)
+	return &returnSlice, nil
 }
