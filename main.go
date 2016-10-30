@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./table"
 	"fmt"
+	"github.com/mohoromitch/cps633-lab2/table"
 )
 
 func main() {
