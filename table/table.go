@@ -14,7 +14,7 @@ const sampleLength = 500
 const samples = 6
 
 type table struct {
-	Data []row
+	data []row
 }
 
 func checkErr(e error) {
@@ -54,7 +54,7 @@ func (t *table) retrieveDataPortion(x int) []row {
 	sliceSize := sampleLength
 	startIndex := sliceSize * x
 	endIndex := startIndex + sliceSize
-	returnSlice := t.Data[startIndex:endIndex]
+	returnSlice := t.data[startIndex:endIndex]
 	return returnSlice
 }
 
