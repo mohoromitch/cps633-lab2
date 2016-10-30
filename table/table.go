@@ -68,6 +68,11 @@ func (t *table) RetrieveDeviations() (d []float64) {
 
 func calculateDeviation(n float64, referenceData []row, monitorData []row) (d float64) {
 	d = ((1/(n-1))*digraphSummation(referenceData, monitorData) + ((1 / n) * monographSummation(referenceData, monitorData))) * 50
+	// if the last data point of the data is a 0, then +Inf is returned
+	// the call below recursively trims the last element until the deviation is not Inf
+	if math.IsInf(d, 0) {
+		return calculateDeviation(n-1, referenceData[0:len(referenceData)-1], monitorData[0:len(monitorData)-1])
+	}
 	return d
 }
 
