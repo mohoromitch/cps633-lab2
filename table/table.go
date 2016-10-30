@@ -11,6 +11,7 @@ import (
 //The default tableLength for this lab is 3000 entries
 const tableLength = 3000
 const sampleLength = 500
+const samples = 6
 
 type table struct {
 	Data []row
@@ -58,12 +59,10 @@ func (t *table) retrieveDataPortion(x int) []row {
 }
 
 func (t *table) RetrieveDeviations() (d []float64) {
-	d = make([]float64, 5)
-	d[0] = calculateDeviation(sampleLength, t.retrieveDataPortion(0), t.retrieveDataPortion(1))
-	d[1] = calculateDeviation(sampleLength, t.retrieveDataPortion(0), t.retrieveDataPortion(2))
-	d[2] = calculateDeviation(sampleLength, t.retrieveDataPortion(0), t.retrieveDataPortion(3))
-	d[3] = calculateDeviation(sampleLength, t.retrieveDataPortion(0), t.retrieveDataPortion(4))
-	d[4] = calculateDeviation(sampleLength, t.retrieveDataPortion(0), t.retrieveDataPortion(5))
+	d = make([]float64, samples-1)
+	for i := 0; i < len(d); i++ {
+		d[i] = calculateDeviation(sampleLength, t.retrieveDataPortion(0), t.retrieveDataPortion(i+1))
+	}
 	return d
 }
 
