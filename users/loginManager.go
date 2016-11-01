@@ -10,7 +10,7 @@ type loginManager struct {
 
 func NewLoginManager(filename string) *loginManager {
 	db, err := NewDatabase(filename)
-	if err == nil {
+	if err != nil {
 		panic(err)
 	}
 	return &loginManager{db: db}

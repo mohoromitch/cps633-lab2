@@ -25,6 +25,8 @@ func (db *database) Load(filename string) error {
 		return err
 	}
 
+	db.users = users
+
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanLines)
 
