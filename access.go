@@ -11,12 +11,14 @@ const (
 )
 
 func main() {
-	users.Load(USER_PERMISSIONS_FILE);
-	fmt.Println("Hello World");
+	fmt.Println("Hello World")
 	loop()
 }
 
 func loop() {
+	db, err := users.NewDatabase(USER_PERMISSIONS_FILE)
+	checkErr(err)
+
 	for {
 		var username string
 		fmt.Print("Enter user name (exit to quit): ")
@@ -26,7 +28,7 @@ func loop() {
 			break
 		}
 
-		user, exists := users.FindUser(username)
+		user, exists := db.FindUser(username)
 		if exists {
 			fmt.Println(user.Str())
 		} else {
@@ -37,5 +39,11 @@ func loop() {
 }
 
 func equals(one, two string) bool {
-	return strings.Compare(one, two) == 0;
+	return strings.Compare(one, two) == 0
+}
+
+func checkErr(err error) {
+	if err == nil {
+		panic(err)
+	}
 }
