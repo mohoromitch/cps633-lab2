@@ -32,7 +32,7 @@ func (lm *loginManager) Login() int {
 func (lm *loginManager) readUsername() (username string) {
 	fmt.Println("Please enter in your username")
 	fmt.Scanf("%s\n", &username)
-	if lm.db.users[username] == nil {
+	if _, exists := lm.db.users[username]; exists {
 		fmt.Println("Invalid username")
 		return lm.readUsername()
 	}
@@ -52,7 +52,7 @@ func (lm *loginManager) readFile(username string) (file string) {
 func (lm *loginManager) readPermission() (permission string) {
 	fmt.Println("Please enter in the permission you would like to request")
 	fmt.Scanf("%s\n", &permission)
-	if !(permission == 'r' || permission == 'w' || permission == 'x') {
+	if !(permission == "r" || permission == "w" || permission == "x") {
 		return lm.readPermission()
 	}
 	return permission
@@ -60,9 +60,9 @@ func (lm *loginManager) readPermission() (permission string) {
 
 func (lm *loginManager) accessGranted(username, file, permission string) bool {
 	p := lm.db.users[username].permissions[file]
-	if permission == 'r' {
+	if permission == "r" {
 		return p.r
-	} else if permission == 'w' {
+	} else if permission == "w" {
 		return p.w
 	} else { //permission == 'x'
 		return p.x
