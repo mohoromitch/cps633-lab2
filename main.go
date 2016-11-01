@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/mohoromitch/cps633-lab2/table"
+	"github.com/mohoromitch/cps633-lab2/users"
 )
+
+const USER_PERMISSIONS_FILE = "./.user_and_permissions.db"
 
 func main() {
 	fmt.Println("Populating tables...")
@@ -17,4 +20,6 @@ func main() {
 	fmt.Println(user3.CalculateEERThrValue())
 	fmt.Println(user4.CalculateEERThrValue())
 	fmt.Println(user5.CalculateEERThrValue())
+	lm := users.NewLoginManager(USER_PERMISSIONS_FILE)
+	lm.Login()
 }

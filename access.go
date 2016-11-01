@@ -17,7 +17,7 @@ func main() {
 
 func loop() {
 	db, err := users.NewDatabase(USER_PERMISSIONS_FILE)
-	checkErr(err)
+	CheckErr(err)
 
 	for {
 		var username string
@@ -42,7 +42,7 @@ func equals(one, two string) bool {
 	return strings.Compare(one, two) == 0
 }
 
-func checkErr(err error) {
+func CheckErr(err error) {
 	if err == nil {
 		panic(err)
 	}

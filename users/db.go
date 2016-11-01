@@ -11,8 +11,8 @@ type database struct {
 
 func NewDatabase(filename string) (*database, error) {
 	db := database{}
-	db.Load(filename)
-	return &db
+	err := db.Load(filename)
+	return &db, err
 }
 
 func (db *database) Load(filename string) error {
