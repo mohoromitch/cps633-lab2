@@ -30,10 +30,10 @@ func (lm *loginManager) Login() int {
 }
 
 func (lm *loginManager) readUsername() (username string) {
-	fmt.Println("Please enter in your username")
+	fmt.Println("Please enter in a username")
 	fmt.Scanf("%s\n", &username)
-	if _, exists := lm.db.users[username]; exists {
-		fmt.Println("Invalid username")
+	if _, exists := lm.db.users[username]; !exists {
+		fmt.Println("User does not exist.")
 		return lm.readUsername()
 	}
 	return username
@@ -53,6 +53,7 @@ func (lm *loginManager) readPermission() (permission string) {
 	fmt.Println("Please enter in the permission you would like to request")
 	fmt.Scanf("%s\n", &permission)
 	if !(permission == "r" || permission == "w" || permission == "x") {
+		fmt.Print("Invalid permission")
 		return lm.readPermission()
 	}
 	return permission
