@@ -36,8 +36,8 @@ func (s *User) GetName() string {
 
 func (s *User) Str() string {
 	str := s.name + ":\n";
-	for _, permission := range(s.permissions) {
-		str += "\t" + permission.Str() + "\n"
+	for filename, permission := range(s.permissions) {
+		str += "\t" + filename + ": " + permission.Str() + "\n"
 	}
 	return str
 }
