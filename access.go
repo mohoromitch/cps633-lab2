@@ -30,9 +30,8 @@ func loop() {
 
 		user, exists := db.FindUser(username)
 		if exists {
-			fmt.Println(user.Str())
 			for {
-				fmt.Printf("Logged in as %s\n", user.GetName())
+				fmt.Printf("Logged in as %s ", user.Str())
 
 				fmt.Print("Enter name of file to edit permisions for (exit to quit): ")
 				var filename string
