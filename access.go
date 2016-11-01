@@ -11,12 +11,14 @@ const (
 )
 
 func main() {
-	users.Load(USER_PERMISSIONS_FILE);
-	fmt.Println("Hello World");
+	fmt.Println("Hello World")
 	loop()
 }
 
 func loop() {
+	db, err := users.NewDatabase(USER_PERMISSIONS_FILE)
+	CheckErr(err)
+
 	for {
 		var username string
 		fmt.Print("Enter user name (exit to quit): ")
@@ -26,9 +28,28 @@ func loop() {
 			break
 		}
 
-		user, exists := users.FindUser(username)
+		user, exists := db.FindUser(username)
 		if exists {
-			fmt.Println(user.Str())
+			for {
+				fmt.Printf("Logged in as %s ", user.Str())
+
+				fmt.Print("Enter name of file to edit permisions for (exit to quit): ")
+				var filename string
+				fmt.Scanf("%s", &filename)
+
+				if equals(filename, "exit") {
+					break
+				}
+
+				perm := user.GetFilePermissions(filename)
+				fmt.Printf("Set permissions for file \"%s\" to: ", filename)
+				var newPerms string
+				fmt.Scanf("%s", &newPerms)
+
+				perm.Parse(newPerms)
+				user.SetFilePermissions(filename, perm)
+				CheckErr(db.Save(USER_PERMISSIONS_FILE))
+			}
 		} else {
 			fmt.Printf("No user \"%s\" exists on record...\n", username)
 			continue
@@ -37,5 +58,12 @@ func loop() {
 }
 
 func equals(one, two string) bool {
-	return strings.Compare(one, two) == 0;
+	return strings.Compare(one, two) == 0
+}
+
+func CheckErr(err error) {
+	if err != nil {
+		//panic(err)
+		fmt.Println(err)
+	}
 }

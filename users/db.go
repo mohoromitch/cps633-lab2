@@ -1,14 +1,22 @@
 package users
 
 import (
-	"os"
 	"bufio"
+	"os"
 )
 
-var users map[string]User
+type database struct {
+	users map[string]User
+}
 
-func Load(filename string) error {
-	users = make(map[string]User)
+func NewDatabase(filename string) (*database, error) {
+	db := database{}
+	err := db.Load(filename)
+	return &db, err
+}
+
+func (db *database) Load(filename string) error {
+	users := make(map[string]User)
 
 	f, err := os.Open(filename)
 	defer f.Close()
@@ -17,23 +25,43 @@ func Load(filename string) error {
 		return err
 	}
 
+	db.users = users
+
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanLines)
 
+	db.users = users
+
 	for scanner.Scan() {
-		user := ParseUserFromString(scanner.Text());
-		AddUser(user)
+		user := ParseUserFromString(scanner.Text())
+		db.AddUser(user)
 	}
 
 	return nil
 }
 
-func AddUser(user User) {
-	users[user.GetName()] = user
+func (db *database) Save(filename string) error {
+	os.Remove(filename);
+
+	f, err := os.Create(filename);
+	if err != nil {
+		return err;
+	}
+	defer f.Close()
+
+	for _, user := range(db.users) {
+		f.WriteString(user.Serialize() + "\n")
+	}
+
+	return nil;
 }
 
-func FindUser(username string) (*User, bool) {
-	user, exists := users[username]
+func (db *database) AddUser(user User) {
+	db.users[user.GetName()] = user
+}
+
+func (db *database) FindUser(username string) (*User, bool) {
+	user, exists := db.users[username]
 	if exists {
 		return &user, true
 	} else {
