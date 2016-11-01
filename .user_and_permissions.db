@@ -1,0 +1,5 @@
+user1 file1 rwx file2 rwx file3 rwx file4 rwx file5 rwx
+user2 file1 r   file2 r   file3 r   file4 r   file5 r
+user3 file1 r   file2 r   file3 r   file4 r   file5 r
+user4 file1   x file2   x file3   x file4   x file5   x
+user5 file1 rw  file2 rw  file3 rw  file4 rw  file5 rw
