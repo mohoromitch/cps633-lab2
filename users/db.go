@@ -28,12 +28,13 @@ func (db *database) Load(filename string) error {
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanLines)
 
+	db.users = users
+
 	for scanner.Scan() {
 		user := ParseUserFromString(scanner.Text())
 		db.AddUser(user)
 	}
 
-	db.users = users
 	return nil
 }
 
