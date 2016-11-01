@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"sort"
 )
 
 //The default tableLength for this lab is 3000 entries
@@ -90,4 +91,14 @@ func monographSummation(ref []row, mon []row) (sum float64) {
 		sum += math.Abs(float64(ref[index].firstDwellTime)-float64(mon[index].firstDwellTime)) / float64(mon[index].firstDwellTime)
 	}
 	return sum
+}
+
+//Since 5 deviation values are produced, the threshold value is simply the middle value of the deviations slice
+func (t *table) CalculateEERThrValue() float64 {
+	deviations := t.RetrieveDeviations()
+	sortedDeviations := make([]float64, len(deviations))
+	copy(sortedDeviations, deviations)
+	sort.Float64s(sortedDeviations)
+
+	return sortedDeviations[2]
 }
