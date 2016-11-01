@@ -48,7 +48,7 @@ func loop() {
 
 				perm.Parse(newPerms)
 				user.SetFilePermissions(filename, perm)
-
+				CheckErr(db.Save(USER_PERMISSIONS_FILE))
 			}
 		} else {
 			fmt.Printf("No user \"%s\" exists on record...\n", username)
@@ -63,6 +63,7 @@ func equals(one, two string) bool {
 
 func CheckErr(err error) {
 	if err != nil {
-		panic(err)
+		//panic(err)
+		fmt.Println(err)
 	}
 }

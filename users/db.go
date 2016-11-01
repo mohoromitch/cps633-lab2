@@ -40,6 +40,22 @@ func (db *database) Load(filename string) error {
 	return nil
 }
 
+func (db *database) Save(filename string) error {
+	os.Remove(filename);
+
+	f, err := os.Create(filename);
+	if err != nil {
+		return err;
+	}
+	defer f.Close()
+
+	for _, user := range(db.users) {
+		f.WriteString(user.Serialize() + "\n")
+	}
+
+	return nil;
+}
+
 func (db *database) AddUser(user User) {
 	db.users[user.GetName()] = user
 }

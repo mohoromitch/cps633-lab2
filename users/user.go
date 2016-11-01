@@ -45,3 +45,11 @@ func (s *User) Str() string {
 	}
 	return str
 }
+
+func (s *User) Serialize() string {
+	str := s.name + " ";
+	for filename, permission := range(s.permissions) {
+		str += filename + " " + permission.Str() + " ";
+	}
+	return str
+}
