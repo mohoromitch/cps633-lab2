@@ -14,7 +14,7 @@ const tableLength = 3000
 const sampleLength = 500
 const samples = 6
 
-type table struct {
+type Table struct {
 	data []row
 }
 
@@ -24,11 +24,11 @@ func checkErr(e error) {
 	}
 }
 
-func NewTableFromFile(filename string) *table {
+func NewTableFromFile(filename string) *Table {
 	f, err := os.Open(filename)
 	checkErr(err)
 	dataTable := extractDataFromFile(f)
-	return &table{*dataTable}
+	return &Table{*dataTable}
 }
 
 func extractDataFromFile(f *os.File) *[]row {
@@ -48,7 +48,7 @@ func extractDataFromFile(f *os.File) *[]row {
 	return &data
 }
 
-func (t *table) retrieveDataPortion(x int) []row {
+func (t *Table) retrieveDataPortion(x int) []row {
 	if x >= 6 || x < 0 {
 		panic(errors.New("The given value was out of range: [0,5]"))
 	}
@@ -59,7 +59,7 @@ func (t *table) retrieveDataPortion(x int) []row {
 	return returnSlice
 }
 
-func (t *table) RetrieveDeviations() (d []float64) {
+func (t *Table) RetrieveDeviations() (d []float64) {
 	d = make([]float64, samples-1)
 	for i := 0; i < len(d); i++ {
 		d[i] = calculateDeviation(sampleLength, t.retrieveDataPortion(0), t.retrieveDataPortion(i+1))
@@ -94,7 +94,7 @@ func monographSummation(ref []row, mon []row) (sum float64) {
 }
 
 //Since 5 deviation values are produced, the threshold value is simply the middle value of the deviations slice
-func (t *table) CalculateEERThrValue() float64 {
+func (t *Table) CalculateEERThrValue() float64 {
 	deviations := t.RetrieveDeviations()
 	sortedDeviations := make([]float64, len(deviations))
 	copy(sortedDeviations, deviations)
